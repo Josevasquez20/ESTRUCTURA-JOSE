@@ -58,7 +58,7 @@ public class Lista {
         Nodo temp = cabeza; // Comienzo desde la cabeza
         while (temp != null) {
             System.out.print(temp.dato + " -> "); // Muestro cada dato
-            temp = temp.siguiente;               // Avanzo al siguiente nodo
+            temp = temp.siguiente;              
         }
         System.out.println("null"); // Indico el fin de la lista
     }
