@@ -4,33 +4,48 @@
  */
 package SEMANA_11;
 import java.util.*;
+import java.util.Scanner; 
 /**
  *
  * @author User
  */
+import java.util.*; // Importa utilidades como Scanner y HashMap
+
 public class Traductor { // Clase principal del programa
-      private static Map<String, String> diccionario = new HashMap<>(); // Diccionario español-inglés usando HashMap
-    private static Scanner scanner = new Scanner(System.in); 
 
-    public static void main(String[] args) { // Método principal donde inicia el programa
-        inicializarDiccionario(); // Carga las palabras base al diccionario
+    // Diccionario que almacena pares español-inglés
+    private static Map<String, String> diccionario = new HashMap<>();
 
-        int opcion;
+    // Scanner para leer datos del usuario
+    private static Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        // Carga palabras iniciales al diccionario
+        inicializarDiccionario();
+
+        int opcion; // Variable para almacenar la opción del menú
+
+        // Bucle principal del menú
         do {
-            mostrarMenu(); // Muestra el menú interactivo
-            opcion = leerEntero("Seleccione una opcion: "); 
+            mostrarMenu(); // Muestra las opciones disponibles
+            opcion = leerEntero("Seleccione una opción: "); // Lee la opción elegida
 
-            switch (opcion) { // Evalúa la opción seleccionada
-                case 1 -> traducirFrase(); //  traduce una frase
-                case 2 -> agregarPalabra(); // permite agregar una palabra al diccionario
-                case 0 -> System.out.println("¡Hasta pronto!"); // Si elige 0, finaliza el programa
-                default -> System.out.println("Opción inválida. Intente de nuevo."); // Para opciones no válidas
+            // Limpia el buffer para evitar que se salte la entrada de texto
+            scanner.nextLine();
+
+            // Ejecuta la acción según la opción seleccionada
+            switch (opcion) {
+                case 1 -> traducirFrase(); // Traduce una frase
+                case 2 -> agregarPalabra(); // Permite agregar una nueva palabra
+                case 0 -> System.out.println("¡Hasta pronto!"); // Finaliza el programa
+                default -> System.out.println("Opción inválida. Intente de nuevo."); // Maneja errores de entrada
             }
         } while (opcion != 0); // Repite el menú hasta que el usuario elija salir
     }
 
-    private static void inicializarDiccionario() { // Método para cargar palabras iniciales
-        diccionario.put("día", "day"); 
+    // Carga palabras base al diccionario
+    private static void inicializarDiccionario() {
+        diccionario.put("día", "day");
         diccionario.put("tiempo", "time");
         diccionario.put("persona", "person");
         diccionario.put("año", "year");
@@ -57,44 +72,57 @@ public class Traductor { // Clase principal del programa
         diccionario.put("compañía", "company");
     }
 
-    private static void mostrarMenu() { // Muestra el menú principal
+    // Muestra el menú principal
+    private static void mostrarMenu() {
         System.out.println("\n==================== MENU ====================");
         System.out.println("1. Traducir una frase");
         System.out.println("2. Agregar palabras al diccionario");
         System.out.println("0. Salir");
     }
 
-    private static void traducirFrase() { // Traduce una frase ingresada por el usuario
-        System.out.print("Ingrese una frase en español: ");
+    // Traduce una frase ingresada por el usuario
+    private static void traducirFrase() {
+        System.out.print("Ingrese una frase en espaNol: ");
         String frase = scanner.nextLine().toLowerCase(); // Convierte la frase a minúsculas
-        String[] palabras = frase.split("\\s+"); // Divide la frase en palabras usando espacios
+
+        String[] palabras = frase.split("\\s+"); // Divide la frase en palabras
 
         StringBuilder traduccion = new StringBuilder(); // Construye la frase traducida
+
         for (String palabra : palabras) {
-            String limpia = palabra.replaceAll("[^a-záéíóúñ]", ""); // Elimina signos de puntuación
-            String traduccionPalabra = diccionario.getOrDefault(limpia, palabra); // Traduce si existe en el diccionario
-            traduccion.append(traduccionPalabra).append(" "); // Añade la palabra traducida (o original) a la frase
+            // Elimina signos de puntuación para facilitar la búsqueda
+            String limpia = palabra.replaceAll("[^a-záéíóúñ]", "");
+
+            // Busca la traducción en el diccionario; si no existe, usa la palabra original
+            String traduccionPalabra = diccionario.getOrDefault(limpia, palabra);
+
+            // Añade la palabra traducida (o original) a la frase final
+            traduccion.append(traduccionPalabra).append(" ");
         }
 
-        System.out.println("Traducción parcial: " + traduccion.toString().trim()); // Muestra la frase traducida
+        // Muestra la frase traducida
+        System.out.println("TraducciOn : " + traduccion.toString().trim());
     }
 
-    private static void agregarPalabra() { // Permite al usuario añadir nuevas palabras al diccionario
-        System.out.print("Ingrese la palabra en español: ");
+    // Permite al usuario agregar nuevas palabras al diccionario
+    private static void agregarPalabra() {
+        System.out.print("Ingrese la palabra en espaNol: ");
         String esp = scanner.nextLine().toLowerCase(); // Lee la palabra en español
-        System.out.print("Ingrese su traducción al inglés: ");
-        String ing = scanner.nextLine().toLowerCase(); // Lee la traducción en inglés
+
+        System.out.print("Ingrese su traducción al ingles: ");
+        String ing = scanner.nextLine().toLowerCase(); // Lee la traducción al inglés
 
         diccionario.put(esp, ing); // Añade la nueva palabra al diccionario
-        System.out.println("Palabra agregada exitosamente."); // Confirma al usuario
+        System.out.println("Palabra agregada exitosamente.");
     }
 
-    private static int leerEntero(String mensaje) { // Método para leer números enteros con validación
+    // Método para leer números enteros con validación
+    private static int leerEntero(String mensaje) {
         System.out.print(mensaje);
-        while (!scanner.hasNextInt()) { // Verifica si la entrada es un número
+        while (!scanner.hasNextInt()) {
             System.out.print("Por favor, ingrese un número válido: ");
-            scanner.next(); // Descarta la entrada inválida
+            scanner.next(); // Descarta entrada inválida
         }
         return scanner.nextInt(); // Devuelve el número ingresado
-    } 
+    }
 }
